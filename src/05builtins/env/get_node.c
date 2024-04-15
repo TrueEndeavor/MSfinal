@@ -47,3 +47,16 @@ t_env_list	*get_previous_node(t_core_struct *core, char *key_to_search)
 	}
 	return (NULL);
 }
+
+int	check_flag(int modified_flag, char **key2set)
+{
+	int	ret;
+
+	ret = 0;
+	if (modified_flag == 1)
+	{
+		free(*key2set);
+		ret = 1;
+	}
+	return (ret);
+}

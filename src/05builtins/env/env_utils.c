@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lannur-s <lannur-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: trysinsk <trysinsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:38:25 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/15 11:45:49 by lannur-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:23:14 by trysinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ int	validate_key(t_core_struct *core, char *key_to_set, char *key_value_pair)
 	return (ret);
 }
 
-void	get_key_val(t_core_struct *core, char *kvp, char **key1, char **val)
+void	get_key_val(t_core_struct *c, char *kvp, char **key1, char **val)
 {
 	*key1 = get_key(kvp);
-	if (validate_key(core, *key1, kvp) == 1)
+	if (validate_key(c, *key1, kvp) == 1)
 	{
 		if (*key1 != NULL && *key1[0] != '\0')
 			free(*key1);

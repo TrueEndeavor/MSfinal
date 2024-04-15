@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lannur-s <lannur-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: trysinsk <trysinsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 10:17:29 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/15 11:47:16 by lannur-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:17:25 by trysinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,8 @@ void	set_env(t_core_struct *core, char *key_value_pair)
 			if (ft_strchr(key_value_pair, '=') && !value2set)
 				modified_flag = 2;
 			try_replace(&(core->env_list), key2set, value2set, &modified_flag);
-			if (modified_flag == 1)
-			{
-				free(key2set);
+			if (check_flag(modified_flag, &key2set) == 1)
 				break ;
-			}
 			core->env_list = (core->env_list)->next;
 		}
 		if (!modified_flag)
