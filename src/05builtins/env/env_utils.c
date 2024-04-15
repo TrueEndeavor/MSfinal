@@ -6,7 +6,7 @@
 /*   By: lannur-s <lannur-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:38:25 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/09 21:49:55 by lannur-s         ###   ########.fr       */
+/*   Updated: 2024/04/13 12:25:47 by lannur-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,16 @@
 char	*get_key(char *s)
 {
 	char	*result;
+	char	*substring;
 
 	result = ft_strchr(s, '=');
 	if (result)
-		return (ft_substr(s, 0, (ft_strlen(s) - ft_strlen(result))));
+	{
+		substring = ft_substr(s, 0, (ft_strlen(s) - ft_strlen(result)));
+		if (!substring)
+			return (NULL);
+		return (substring);
+	}
 	else
 		return (ft_strdup(s));
 }
@@ -66,4 +72,21 @@ t_env_list	*init_env(char **envp)
 		i++;
 	}
 	return (minishell_envp_head);
+}
+
+int	validate_key(t_core_struct *core, char *key_to_set, char *key_value_pair)
+{
+	int	ret;
+
+	ret = 0;
+	if (!key_to_set)
+		panic ("key to set not found");
+	if (!is_valid_variable_name(key_to_set) || \
+		(ft_strchr(key_to_set, '=') != NULL))
+	{
+		ft_printf("export: `%s': not a valid identifier\n", key_value_pair);
+		core->exit_code = EXIT_FAILURE;
+		ret = 1;
+	}
+	return (ret);
 }

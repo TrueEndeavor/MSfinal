@@ -6,28 +6,11 @@
 /*   By: lannur-s <lannur-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 10:17:29 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/11 15:43:26 by lannur-s         ###   ########.fr       */
+/*   Updated: 2024/04/13 12:30:38 by lannur-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	validate_key(t_core_struct *core, char *key_to_set, char *key_value_pair)
-{
-	int	ret;
-
-	ret = 0;
-	if (!key_to_set)
-		panic ("key to set not found");
-	if (!is_valid_variable_name(key_to_set)
-		|| (ft_strchr(key_to_set, '=') != NULL))
-	{
-		ft_printf("export: `%s': not a valid identifier\n", key_value_pair);
-		core->exit_code = EXIT_FAILURE;
-		ret = 1;
-	}
-	return (ret);
-}
 
 void	replace_val(char **val, char *value_to_set)
 {
@@ -40,7 +23,8 @@ void	replace_val(char **val, char *value_to_set)
 		perror("Memory allocation failed");
 		exit(EXIT_FAILURE);
 	}
-	free(value_to_set);
+	if (value_to_set != NULL && value_to_set[0] != '\0')
+		free(value_to_set);
 }
 
 void	add_enventry(char *key, char *value, int mod_flag, t_env_list *head)
@@ -69,12 +53,23 @@ void	replace_enventry(t_env_list **node, char *key, char *val, int *mod_flag)
 	if ((ft_strlen((*node)->name) == ft_strlen(key)) && \
 		(ft_strcmp((*node)->name, key) == 0))
 	{
-		if (*val != '\0')
-			replace_val(&(*node)->value, val);
-		else
+		if (val == NULL)
 			replace_val(&(*node)->value, "");
+		else if (val && *val != '\0')
+			replace_val(&(*node)->value, val);
 		*mod_flag = 1;
 	}
+}
+
+void	get_key_val(t_core_struct *core, char *kvp, char **key1, char **val)
+{
+	*key1 = get_key(kvp);
+	if (validate_key(core, *key1, kvp) == 1)
+	{
+		free(key1);
+		return ;
+	}
+	get_trimmed_val(val, kvp);
 }
 
 void	set_env(t_core_struct *core, char *key_value_pair)
@@ -88,16 +83,16 @@ void	set_env(t_core_struct *core, char *key_value_pair)
 	modified_flag = 0;
 	key_to_set = NULL;
 	value_to_set = NULL;
-	key_to_set = get_key(key_value_pair);
-	if (validate_key(core, key_to_set, key_value_pair) == 1)
-		return ;
-	get_trimmed_val(&value_to_set, key_value_pair);
+	get_key_val(core, key_value_pair, &key_to_set, &value_to_set);
 	while (core->env_list)
 	{
 		replace_enventry((&(core->env_list)), \
-				key_to_set, value_to_set, &modified_flag);
+			key_to_set, value_to_set, &modified_flag);
 		if (modified_flag)
+		{
 			free(key_to_set);
+			break ;
+		}
 		core->env_list = (core->env_list)->next;
 	}
 	if (!modified_flag)

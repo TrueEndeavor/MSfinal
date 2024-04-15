@@ -6,7 +6,7 @@
 /*   By: lannur-s <lannur-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:37:31 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/11 11:04:53 by lannur-s         ###   ########.fr       */
+/*   Updated: 2024/04/13 12:07:00 by lannur-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	builtin_exit(t_execcmd_P *ecmd, t_core_struct *core, char *prompt)
 	{
 		ft_printf (" numeric argument required\n");
 		core->exit_code = 2;
-		return (core->exit_code);
+		exit (core->exit_code);
 	}
 	if (ecmd->argv[1] != NULL && ecmd->argv[2] != NULL)
 	{
