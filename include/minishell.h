@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lannur-s <lannur-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: trysinsk <trysinsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 10:16:04 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/11 15:12:21 by lannur-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:37:01 by trysinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void		ft_free_tok_list(t_token_T **token_head);
 void		ft_free_env(t_env_list *env);
 void		ft_free_cmd(t_cmd_P *cmd);
 void		ft_free_heredoc(t_cmd_P *cmd);
+void		free_both(t_cmd_P *root, t_token_T *token_head);
 void		here_ext(char *line, t_herecmd_P *hcmd);
 void		free_all(t_cmd_P *root, t_core_struct *core, char *prompt);
 void		init_sig(t_core_struct *core, t_cmd_P *fcmd);
