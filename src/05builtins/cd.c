@@ -6,7 +6,7 @@
 /*   By: trysinsk <trysinsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:37:31 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/11 12:44:40 by trysinsk         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:36:17 by trysinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	builtin_cd(t_execcmd_P *ecmd, t_core_struct *core)
 		chdir(get_env(core, "HOME"));
 	else if (ft_strcmp(ecmd->argv[1], "-") == 0)
 	{
-		if (chdir (old_pwd->value) == -1)
+		if (old_pwd == NULL || chdir (old_pwd->value) == -1)
 			return (1);
 	}
 	else if (chdir (ecmd->argv[1]) == -1)
