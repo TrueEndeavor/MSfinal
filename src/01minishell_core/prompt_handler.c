@@ -58,7 +58,7 @@ void	process_user_input(t_core_struct *core, char *prompt)
 	{
 		root = parse_cmd(core);
 		if ((root->type == EXEC_CMD) && !(((t_execcmd_P *) root)->argv[0]))
-			return ;
+			return (free_both(root, token_head));
 		if (!match_builtin(root, core, prompt))
 			execute_command(root, core);
 	}
