@@ -6,7 +6,7 @@
 /*   By: lannur-s <lannur-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:38:25 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/13 12:25:47 by lannur-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:45:49 by lannur-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_value(char *s)
 
 	found_key_at = ft_strchr(s, '=');
 	result = NULL;
-	if (found_key_at)
+	if (found_key_at && ft_strlen(found_key_at) != 1)
 	{
 		start_index = (ft_strlen(s) - ft_strlen(found_key_at)) + 1;
 		result = ft_substr(s, start_index, ft_strlen(s));
@@ -89,4 +89,16 @@ int	validate_key(t_core_struct *core, char *key_to_set, char *key_value_pair)
 		ret = 1;
 	}
 	return (ret);
+}
+
+void	get_key_val(t_core_struct *core, char *kvp, char **key1, char **val)
+{
+	*key1 = get_key(kvp);
+	if (validate_key(core, *key1, kvp) == 1)
+	{
+		if (*key1 != NULL && *key1[0] != '\0')
+			free(*key1);
+		return ;
+	}
+	get_trimmed_val(val, kvp);
 }

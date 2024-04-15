@@ -6,7 +6,7 @@
 /*   By: lannur-s <lannur-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:38:25 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/11 15:42:23 by lannur-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:14:45 by lannur-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	display_env_from_list(t_env_list *env_list, int is_export)
 		{
 			if ((env_list)->value != NULL)
 			{
-				if (ft_strcmp(env_list->value, "") != 0)
-					printf("%s=%s\n", env_list->name, env_list->value);
+				printf("%s=%s\n", env_list->name, env_list->value);
 			}
 		}
 		else if (is_export == 1)

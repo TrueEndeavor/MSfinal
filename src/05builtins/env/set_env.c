@@ -6,7 +6,7 @@
 /*   By: lannur-s <lannur-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 10:17:29 by lannur-s          #+#    #+#             */
-/*   Updated: 2024/04/13 12:30:38 by lannur-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:47:16 by lannur-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,49 +53,47 @@ void	replace_enventry(t_env_list **node, char *key, char *val, int *mod_flag)
 	if ((ft_strlen((*node)->name) == ft_strlen(key)) && \
 		(ft_strcmp((*node)->name, key) == 0))
 	{
-		if (val == NULL)
+		if (val == NULL && *mod_flag == 2)
 			replace_val(&(*node)->value, "");
-		else if (val && *val != '\0')
+		if (val && *val != '\0')
 			replace_val(&(*node)->value, val);
 		*mod_flag = 1;
 	}
 }
 
-void	get_key_val(t_core_struct *core, char *kvp, char **key1, char **val)
+void	try_replace(t_env_list **node, char *key, char *value, int *mod_flag)
 {
-	*key1 = get_key(kvp);
-	if (validate_key(core, *key1, kvp) == 1)
-	{
-		free(key1);
-		return ;
-	}
-	get_trimmed_val(val, kvp);
+	replace_enventry(node, key, value, mod_flag);
 }
 
 void	set_env(t_core_struct *core, char *key_value_pair)
 {
 	t_env_list	*head;
-	char		*key_to_set;
-	char		*value_to_set;
+	char		*key2set;
+	char		*value2set;
 	int			modified_flag;
 
 	head = core->env_list;
 	modified_flag = 0;
-	key_to_set = NULL;
-	value_to_set = NULL;
-	get_key_val(core, key_value_pair, &key_to_set, &value_to_set);
-	while (core->env_list)
+	key2set = NULL;
+	value2set = NULL;
+	get_key_val(core, key_value_pair, &key2set, &value2set);
+	if (core->exit_code != EXIT_FAILURE)
 	{
-		replace_enventry((&(core->env_list)), \
-			key_to_set, value_to_set, &modified_flag);
-		if (modified_flag)
+		while (core->env_list)
 		{
-			free(key_to_set);
-			break ;
+			if (ft_strchr(key_value_pair, '=') && !value2set)
+				modified_flag = 2;
+			try_replace(&(core->env_list), key2set, value2set, &modified_flag);
+			if (modified_flag == 1)
+			{
+				free(key2set);
+				break ;
+			}
+			core->env_list = (core->env_list)->next;
 		}
-		core->env_list = (core->env_list)->next;
+		if (!modified_flag)
+			add_enventry(key2set, value2set, modified_flag, head);
+		core->env_list = head;
 	}
-	if (!modified_flag)
-		add_enventry(key_to_set, value_to_set, modified_flag, head);
-	core->env_list = head;
 }

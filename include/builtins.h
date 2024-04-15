@@ -48,5 +48,6 @@ t_env_list	*get_node(t_core_struct *core, char *key_to_search);
 t_env_list	*get_previous_node(t_core_struct *core, char *key_to_search);
 void		get_trimmed_val(char **value_to_set, char *key_value_pair);
 int			validate_key(t_core_struct *core, char *key, char *kvp);
+void		get_key_val(t_core_struct *core, char *kvp, char **key1, char **val);
 
 #endif
